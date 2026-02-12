@@ -138,7 +138,7 @@ const Hero = () => {
           scrub:1
         },
         duration:3,
-        markers:true,
+        
       })
 
       // Animate text color to white
@@ -157,6 +157,28 @@ const Hero = () => {
       tl.set('.hero-fore',{
         display:"fixed"
       },1.4)
+
+
+      const atl = gsap.timeline({scrollTrigger:{
+        trigger:'.about-content',
+        scrub: 0.5,
+        start:'top 60%',
+        end:'top 20%',
+        markers:true
+      }})
+
+      atl.to('.about1',{
+        opacity:1,
+        y:"-10%",
+        duration:2
+      },0)
+
+      atl.to('.about2',{
+        opacity:1,
+  
+        y:"-10%",
+        duration:2
+      },0.6)
     
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -281,7 +303,11 @@ const Hero = () => {
       </div>
       
     </div>
-    <div className='bg-[#0b090a] h-screen w-screen'></div>
+    <div className='bg-[#0b090a] about-content md:text-[30px] text-[20px] text-[#fef9ef] text-center flex flex-col md:flex-row items-center justify-center  h-screen w-screen' style={{fontFamily:'Astila-Regular'}} >
+      <p className='md:mt-[-150px]  about1 opacity-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi blanditiis quam perferendis pariatur, est ipsam, atque maxime temporibus deleniti architecto natus aut non neque exercitationem optio voluptatibus debitis ipsum. Est.</p>
+
+      {width > 768 ? <p className='md:mt-[50px] about2 opacity-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia qui eos cum asperiores consequuntur optio porro necessitatibus nesciunt cumque nihil esse, nam quibusdam exercitationem officiis dignissimos consequatur ab ipsa quas.</p> : ''}
+    </div>
     </div>
   )
 }
