@@ -106,7 +106,7 @@ const Hero = () => {
 
 
       tl.to('.hero-fore',{
-        scale:width > 768 ? 0.85 : 1.2,
+        scale: width > 768 ? 0.85 : 1.5,
         y:width >768 ? "-30%" : '-10%',
         ease:"sine.in"
       },0)
@@ -134,7 +134,7 @@ const Hero = () => {
         opacity:0,
         scrollTrigger:{
           trigger:'hero-fore',
-          start:'40% top',
+          start: width > 768 ? '40% top' : '30% top',
           scrub:1
         },
         duration:3,
@@ -162,23 +162,43 @@ const Hero = () => {
       const atl = gsap.timeline({scrollTrigger:{
         trigger:'.about-content',
         scrub: 0.5,
-        start:'top 60%',
-        end:'top 20%',
+        start: width > 768 ? 'top 30%' : 'top 40%',
+        end:'+=100%',
         markers:true
       }})
 
+      gsap.set(".about-img", {
+        transformOrigin: "center center",
+        position: "absolute",
+        top: "0%",
+        left: "50%",
+        x: "-50%",
+      });
+
+      atl.to('.about-img',{
+        height: width > 768 ? '350px' : '300px',
+        width: width > 768 ? '60vw' : '80vw',
+        y:"20%",
+        duration:1,
+      },0)
+     
+
       atl.to('.about1',{
         opacity:1,
+        color:'#fef9ef',
         y:"-10%",
         duration:2
-      },0)
+      },0.9)
 
       atl.to('.about2',{
         opacity:1,
   
         y:"-10%",
         duration:2
-      },0.6)
+      },1.2)
+
+
+
     
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -211,51 +231,51 @@ const Hero = () => {
     //   };
     // }, [mounted]);
 
-    useEffect(() => {
-      if (!mounted || typeof window === 'undefined') return;
+    // useEffect(() => {
+    //   if (!mounted || typeof window === 'undefined') return;
     
-      const handleOrientation = (e: any) => { // Changed to 'any' to avoid type issues
-        const x = (e.gamma || 0) / 45;
-        const y = (e.beta || 0) / 90;
+    //   const handleOrientation = (e: any) => { // Changed to 'any' to avoid type issues
+    //     const x = (e.gamma || 0) / 45;
+    //     const y = (e.beta || 0) / 90;
         
-        console.log('Tilt:', x, y); // Debug log
+    //     console.log('Tilt:', x, y); // Debug log
         
-        gsap.to('.hero-fore', {
-          x: -x * 40,
-          y: -y * 20,
-          duration: 0.5,
-          ease: "power2.out"
-        });
-      };
+    //     gsap.to('.hero-fore', {
+    //       x: -x * 40,
+    //       y: -y * 20,
+    //       duration: 0.5,
+    //       ease: "power2.out"
+    //     });
+    //   };
     
-      // Check if DeviceOrientationEvent exists
-      if (typeof window.DeviceOrientationEvent !== 'undefined') {
-        // For iOS 13+
-        if (typeof (window.DeviceOrientationEvent as any).requestPermission === 'function') {
-          (window.DeviceOrientationEvent as any).requestPermission()
-            .then((response: string) => {
-              if (response === 'granted') {
-                window.addEventListener('deviceorientation', handleOrientation);
-              }
-            })
-            .catch((error: any) => console.error('Permission denied', error));
-        } else {
-          // Android and other devices
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
-      } else {
-        console.log('DeviceOrientation not supported');
-      }
+    //   // Check if DeviceOrientationEvent exists
+    //   if (typeof window.DeviceOrientationEvent !== 'undefined') {
+    //     // For iOS 13+
+    //     if (typeof (window.DeviceOrientationEvent as any).requestPermission === 'function') {
+    //       (window.DeviceOrientationEvent as any).requestPermission()
+    //         .then((response: string) => {
+    //           if (response === 'granted') {
+    //             window.addEventListener('deviceorientation', handleOrientation);
+    //           }
+    //         })
+    //         .catch((error: any) => console.error('Permission denied', error));
+    //     } else {
+    //       // Android and other devices
+    //       window.addEventListener('deviceorientation', handleOrientation);
+    //     }
+    //   } else {
+    //     console.log('DeviceOrientation not supported');
+    //   }
     
-      return () => {
-        window.removeEventListener('deviceorientation', handleOrientation);
-      };
-    }, [mounted]);
-    if (!mounted) return null;
+    //   return () => {
+    //     window.removeEventListener('deviceorientation', handleOrientation);
+    //   };
+    // }, [mounted]);
+    // if (!mounted) return null;
 
   return (
     <div>
-    <div className='h-[300vh] overflow-hidden'> {/* Increased height for extended pin */}
+    <div className='min-h-[300vh] overflow-hidden'> {/* Increased height for extended pin */}
       <div className="max-w-none flex flex-col justify-center">
         <h1 className='hero-text text-[70px] ml-[5vw] z-10 fixed top-[-2vh] left-0' style={{fontFamily:'hisyam'}}>SATTVA</h1>
         
@@ -303,10 +323,15 @@ const Hero = () => {
       </div>
       
     </div>
-    <div className='bg-[#0b090a] about-content md:text-[30px] text-[20px] text-[#fef9ef] text-center flex flex-col md:flex-row items-center justify-center  h-screen w-screen' style={{fontFamily:'Astila-Regular'}} >
-      <p className='md:mt-[-150px]  about1 opacity-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi blanditiis quam perferendis pariatur, est ipsam, atque maxime temporibus deleniti architecto natus aut non neque exercitationem optio voluptatibus debitis ipsum. Est.</p>
+    <div className='bg-[#0b090a] h-[200vh] about-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[400px] md:h-[500px]'>IMage 1</div>
+      <div className='h-screen flex flex-col md:flex-row md:items-center md:justify-center '>
+        
+      <p className=' mt-[400px] md:mt-[550px]  about1 '>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi blanditiis quam perferendis pariatur, est ipsam, atque maxime temporibus deleniti architecto natus aut non neque exercitationem optio voluptatibus debitis ipsum. Est.</p>
 
-      {width > 768 ? <p className='md:mt-[50px] about2 opacity-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia qui eos cum asperiores consequuntur optio porro necessitatibus nesciunt cumque nihil esse, nam quibusdam exercitationem officiis dignissimos consequatur ab ipsa quas.</p> : ''}
+{width > 768 ? <p className=' md:mt-[550px] about2 '>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia qui eos cum asperiores consequuntur optio porro necessitatibus nesciunt cumque nihil esse, nam quibusdam exercitationem officiis dignissimos consequatur ab ipsa quas.</p> : ''}
+      </div>
+      
     </div>
     </div>
   )
