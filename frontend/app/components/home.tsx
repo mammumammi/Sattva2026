@@ -216,6 +216,16 @@ const Hero = () => {
       ease: "sine.in"
     }, 0)
 
+    tl.to(
+      ".scroll-indicator",
+      {
+        opacity: 0,
+        ease: "none"
+      },
+      0.1  // 0.6 of timeline (30% of 2.0 duration)
+    );
+
+
     // Fade out CUCEK and Tradition Reimagined text on scroll
     gsap.to('.cucek-text h1', {
       opacity: 0,
@@ -242,7 +252,7 @@ const Hero = () => {
     });
 
     gsap.to('.hero-fore', {
-      opacity: 0,
+      // opacity: 0,
       scrollTrigger: {
         trigger: 'hero-fore',
         start: width > 768 ? '40% top' : '30% top',
@@ -280,11 +290,11 @@ const Hero = () => {
         x: "-50%",
         y: "-50%",
         marginLeft: 0,
-        scale: width > 768 ? 4 : 1.5,
+        scale: width > 768 ? 5 : 3,
         ease: "power2.inOut",
         duration: 0.5
       },
-      0.3
+      0.2
     );
 
     tl.to(
@@ -298,16 +308,21 @@ const Hero = () => {
       0.5
     );
 
-    tl.to(
+    tl.fromTo(
       ".hamburger-btn",
+      {
+        opacity: 0,
+        y: 100
+      },
       {
         opacity: 1,
         y: 0,
-        ease: "power2.out",
+        ease: "power3.out",
         duration: 0.3
       },
       0.5
     );
+
 
     gsap.set('.cusat-logo', {
       opacity: 0,
@@ -384,21 +399,21 @@ const Hero = () => {
     });
 
     // Move Sattva logo back to top-left
-    gsap.to(".hero-text", {
-      top: "20px",
-      left: "20px",
-      x: "0",
-      y: "0",
-      scale: 1,
-      marginLeft: "5vw",
-      ease: "power2.inOut",
-      scrollTrigger: {
-        trigger: '.about-content',
-        start: 'top 100%',
-        end: 'top 70%',
-        scrub: 1,
-      }
-    });
+    // gsap.to(".hero-text", {
+    //   top: "20px",
+    //   left: "20px",
+    //   x: "0",
+    //   y: "0",
+    //   scale: 1,
+    //   marginLeft: "5vw",
+    //   ease: "power2.inOut",
+    //   scrollTrigger: {
+    //     trigger: '.about-content',
+    //     start: 'top 100%',
+    //     end: 'top 70%',
+    //     scrub: 1,
+    //   }
+    // });
 
     // Move navbar from bottom to top
     gsap.to(".hero-navbar", {
@@ -439,32 +454,7 @@ const Hero = () => {
       }
     });
 
-    // Fade out 2026 text
-    gsap.to(".year-2026", {
-      opacity: 0,
-      scale: 0.95,
-      y: -10,
-      ease: "power2.inOut",
-      scrollTrigger: {
-        trigger: '.about-content',
-        start: 'top 100%',
-        end: 'top 70%',
-        scrub: 1,
-      }
-    });
 
-    // Fade out CUCEK and Tradition texts
-    gsap.to(".cucek-text", {
-      opacity: 0,
-      y: -10,
-      ease: "power2.inOut",
-      scrollTrigger: {
-        trigger: '.about-content',
-        start: 'top 100%',
-        end: 'top 70%',
-        scrub: 1,
-      }
-    });
 
     gsap.to(".tradition-text", {
       opacity: 0,
@@ -477,6 +467,16 @@ const Hero = () => {
         scrub: 1,
       }
     });
+
+    gsap.to(".arrow-wrapper", {
+      y: 10,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -529,7 +529,7 @@ const Hero = () => {
             Brochure
           </a>
           <a
-            href="#total-points"
+            href="totalpoints"
             className='fullpage-menu-item text-black text-4xl md:text-6xl lg:text-7xl font-bold hover:text-gray-600 transition-colors opacity-0 translate-y-12'
             style={{ fontFamily: 'Astila-Regular' }}
             onClick={handleMenuClick}
@@ -555,40 +555,50 @@ const Hero = () => {
         </nav>
       </div>
 
-      {/* Curtain Transition - Left Panel */}
-      <div className='curtain-left fixed top-0 left-0 w-1/2 h-screen bg-white z-[60] pointer-events-none'></div>
-
-      {/* Curtain Transition - Right Panel */}
-      <div className='curtain-right fixed top-0 right-0 w-1/2 h-screen bg-white z-[60] pointer-events-none'></div>
-
       <div className='min-h-[300vh] overflow-hidden'>
         <div className="max-w-none flex flex-col justify-center">
-          <div className='hero-text text-[70px] ml-[5vw] z-50 fixed top-[-2vh] left-0 font-bold'>
-            <Image src={sattvalogo} width={120} height={100} alt="sattva" />
+          <div className='hero-text text-[70px] ml-[5vw] z-50 fixed top-[-2vh] left-0 font-bold sm:w-14 md:w-24 lg:w-32'>
+            <Image
+              src={sattvalogo}
+              alt="sattva"
+              className="w-28 sm:w-20 md:w-28 lg:w-36 h-auto"
+              priority
+            />
+
           </div>
-          <div className='cusat-logo z-50 fixed top-6 left-6 font-bold'>
-            <Image src={cusatlogo} width={100} height={100} alt="cusat" />
+          <div className='cusat-logo z-50 fixed top-6 ml-[5vw] font-bold sm:w-24 md:w-40 lg:w-20'>
+            <Image src={cusatlogo} alt="cusat"
+              className="w-12 sm:w-20 md:w-28 lg:w-36 h-auto"
+              priority
+            />
           </div>
 
           {/* CUCEK Text - Top Right */}
-          <div className='cucek-text z-10 fixed top-8 mr-[2vw] md:right-12'>
-            <h1 className='text-xs md:text-lg uppercase tracking-[0.3em] text-black font-light' style={{ fontFamily: 'textfont', letterSpacing: '0.2em' }}>CUCEK</h1>
+          <div className='cucek-text z-10 fixed top-8 mr-[2vw] md:right-12 right-5 hidden md:block'>
+            <h1 className='text-lg md:text-lg uppercase tracking-[0.3em] text-[#590d22] font-light' style={{ fontFamily: 'textfont', letterSpacing: '0.2em' }}>CUCEK</h1>
           </div>
 
           {/* Tradition Reimagined - Bottom Left */}
-          <div className='tradition-text z-10 fixed bottom-8 ml-[2vw] md:left-12'>
-            <p className='text-xs md:text-sm uppercase tracking-[0.3em] text-black font-light' style={{ fontFamily: 'textfont', letterSpacing: '0.25em' }}>
+          <div className=' z-10 fixed bottom-8 ml-[5vw] md:ml-[2vw] md:left-12'>
+            <p className='text-xs md:text-sm uppercase tracking-[0.3em] text-[#590d22] font-light' style={{ fontFamily: 'textfont', letterSpacing: '0.25em' }}>
               Tradition Reimagined
             </p>
           </div>
 
-          <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4'>
-            <nav className='hero-navbar opacity-0 translate-y-10'>
+          <div className='
+  fixed z-50 flex items-center gap-4
+
+  top-6 right-6                 /* mobile position */
+  md:bottom-8 md:left-1/2       /* desktop position */
+  md:-translate-x-1/2
+  md:top-auto md:right-auto
+'>
+            <nav className='hero-navbar opacity-0 translate-y-10 hidden md:block'>
               <div className='flex items-center gap-6 md:gap-8 bg-white/10 backdrop-blur-md px-6 md:px-10 py-4 rounded-full border border-white/20'>
                 <a href="#brochure" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
                   Brochure
                 </a>
-                <a href="#total-points" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }} >
+                <a href="totalpoints" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }} >
                   Total Points
                 </a>
                 <a href="#individual-points" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
@@ -602,8 +612,10 @@ const Hero = () => {
 
             <button
               onClick={toggleMenu}
-              className='hamburger-btn opacity-0 translate-y-10 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300 z-[101] relative'
+              className='hamburger-btn opacity-0 translate-y-20 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300 z-[101]'
+
             >
+
               <div className='flex flex-col gap-[6px] w-6'>
                 <div className='hamburger-line-1 h-[2px] w-full bg-white rounded-full'></div>
                 <div className='hamburger-line-2 h-[2px] w-full bg-white rounded-full'></div>
@@ -622,12 +634,40 @@ const Hero = () => {
               </div>
 
               <div className='hero-overlay absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none z-40'></div>
+              <div className="scroll-indicator fixed bottom-6 left-1/2 -translate-x-1/2 z-100 flex flex-col items-center gap-2 pointer-events-none md:hidden">
+                <p
+                  className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-[#590d22] font-bold"
+                  style={{ fontFamily: "textfont" }}
+                >
+                  Scroll to Explore
+                </p>
+
+                <div className="arrow-wrapper flex flex-col items-center">
+                  <span className="w-[2px] h-6 bg-[#590d22]/50"></span>
+                  <span className="w-2 h-2 border-r border-b border-[#590d22] rotate-45 mt-0"></span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className='year-2026 w-screen flex justify-end fixed bottom-7 mr-[2vw] md:right-12 z-10'>
+          <div className='year-2026 w-screen flex justify-end fixed bottom-7 md:mr-[2vw] mr-[5vw] right-2  md:right-12 z-10'>
             <h1 className='text-3xl' style={{ fontFamily: 'textfont' }}>2026</h1>
           </div>
+          {/* Scroll To Explore Indicator */}
+          <div className="scroll-indicator fixed bottom-6 left-1/2 -translate-x-1/2 z-20 md:flex flex-col items-center gap-2 pointer-events-none hidden">
+            <p
+              className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-[#590d22]"
+              style={{ fontFamily: "textfont" }}
+            >
+              Scroll to Explore
+            </p>
+
+            <div className="arrow-wrapper flex flex-col items-center">
+              <span className="w-[1px] h-6 bg-[#590d22]/50"></span>
+              <span className="w-2 h-2 border-r border-b border-[#590d22] rotate-45 mt-1"></span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

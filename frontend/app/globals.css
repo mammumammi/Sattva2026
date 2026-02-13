@@ -34,10 +34,22 @@ body {
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'new';
+  src: url('/frontend/assets/font/measseon.otf') format('otf');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'textfont';
+  src: url('/fonts/Urbanist-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-display: swap;
+}
 .perspective {
   perspective: 1200px;
 }
-
 
 @font-face{
   font-family:'eline-novika';
@@ -64,4 +76,14 @@ body {
   font-family: "Alfa Slab One", serif;
   font-weight: 400;
   font-style: normal;
+}
+
+/* Hide scrollbar for Chrome, Safari and Edge */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
 }
