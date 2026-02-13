@@ -3,6 +3,8 @@ import { div } from 'framer-motion/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import React, { useEffect, useState } from 'react'
+import sattva from '../../assets/sattva.png';
+import cusat from '../../assets/cusatlogo.png';
 
 gsap.registerPlugin(ScrollTrigger);
 type TimeLeft ={
@@ -112,29 +114,23 @@ const Hero = () => {
       },0)
 
 
-      gsap.to('.about-text', {
-        x: "-200vw",
-        duration: 20, // Slow base speed
-        repeat: -1, // Infinite loop
-        ease: "none"
-      });
-
       tl.to('.about-text',{
         opacity: 1,
-        scale:0.9,
+        scale:1.2,
         duration:1,
-        x:"-250vw",
+        // y:'-40vh',
         y:'-10vh',
         scrollTrigger:{
           srub:1.2
-        }
+        },
+        zIndex:30
       },0.7);
 
       gsap.to('.hero-fore',{
         opacity:0,
         scrollTrigger:{
           trigger:'hero-fore',
-          start: width > 768 ? '40% top' : '30% top',
+          start: width > 768 ? '20% top' : '30% top',
           scrub:1
         },
         duration:3,
@@ -145,11 +141,12 @@ const Hero = () => {
       tl.to(
         ".hero-text",
         {
-          color: '#fef9ef',
-          ease: "none",
-          duration:0.5
+          filter: "brightness(0) invert(1)",
+          duration: 1,
+          ease: "power2.out",
+          
         },
-        0 // Start at same time as container expansion
+        0.35 // Start at same time as container expansion
       );
 
     
@@ -170,7 +167,7 @@ const Hero = () => {
       gsap.set(".about-img", {
         transformOrigin: "center center",
         position: "absolute",
-        top: "0%",
+        top: (i) => i * 450,
         left: "50%",
         x: "-50%",
       });
@@ -179,9 +176,8 @@ const Hero = () => {
         height: width > 768 ? '350px' : '300px',
         width: width > 768 ? '60vw' : '80vw',
         y:"20%",
-        duration:1,
+        duration:4,
       },0)
-     
 
       atl.to('.about1',{
         opacity:1,
@@ -277,7 +273,7 @@ const Hero = () => {
     <div>
     <div className='min-h-[300vh] overflow-hidden'> {/* Increased height for extended pin */}
       <div className="max-w-none flex flex-col justify-center">
-        <h1 className='hero-text text-[70px] ml-[5vw] z-10 fixed top-[-2vh] left-0' style={{fontFamily:'hisyam'}}>SATTVA</h1>
+        <img src={cusat.src} className='hero-text w-[50px] ml-[5vw] z-10 fixed top-[1vh] left-0' style={{fontFamily:'hisyam'}}></img>
         
         <div className="inner-hero-wrapper  relative h-screen"> {/* Changed to h-screen */}
           <div className="inner-hero rounded-[20px] h-[80vh] w-[90vw] overflow-hidden relative">
@@ -301,13 +297,9 @@ const Hero = () => {
               </div>
 
 
-              <div className='flex  about-text flex-row space-x-5 text-[150px] md:text-[300px] text-[white] absolute top-[50%] z-0 opacity-0 ' style={{fontFamily:'Astila-Regular'}} >
-                <p>About</p>
-                <p>About</p>
-                <p>About</p>
-                <p>About</p>
-                <p>About</p>
-                <p>About</p>
+              <div className=' about-text left-1/2 -translate-x-1/2   space-x-5 text-[150px] md:text-[250px] text-[white] absolute top-[50%] z-0 opacity-0 ' style={{fontFamily:'Astila-Regular'}} >
+                {/* <img src={sattva.src} alt="" /> */}
+                <p>SATTVA</p>
               </div>
 
               
@@ -323,14 +315,13 @@ const Hero = () => {
       </div>
       
     </div>
-    <div className='bg-[#0b090a] h-[200vh] about-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
-    <div className='about-img  bg-white rounded-[20px] w-screen h-[400px] md:h-[500px]'>IMage 1</div>
-      <div className='h-screen flex flex-col md:flex-row md:items-center md:justify-center '>
-        
-      <p className=' mt-[400px] md:mt-[550px]  about1 '>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi blanditiis quam perferendis pariatur, est ipsam, atque maxime temporibus deleniti architecto natus aut non neque exercitationem optio voluptatibus debitis ipsum. Est.</p>
-
-{width > 768 ? <p className=' md:mt-[550px] about2 '>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia qui eos cum asperiores consequuntur optio porro necessitatibus nesciunt cumque nihil esse, nam quibusdam exercitationem officiis dignissimos consequatur ab ipsa quas.</p> : ''}
-      </div>
+    <div className='bg-[#0b090a] h-[200vh] flex flex-col about-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
       
     </div>
     </div>
