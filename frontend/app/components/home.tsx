@@ -519,7 +519,7 @@ const Hero = () => {
           </p>
         </div>
 
-        <nav className='flex flex-col items-center justify-center gap-8 md:gap-12'>
+        <nav className='flex flex-col items-center justify-center gap-2 md:gap-2'>
           <a
             href="#brochure"
             className='fullpage-menu-item text-black text-4xl md:text-6xl lg:text-7xl font-bold hover:text-gray-600 transition-colors opacity-0 translate-y-12'
@@ -534,18 +534,26 @@ const Hero = () => {
             style={{ fontFamily: 'Astila-Regular' }}
             onClick={handleMenuClick}
           >
-            Total Points
+            Point Table
           </a>
           <a
-            href="#individual-points"
+            href="arts"
             className='fullpage-menu-item text-black text-4xl md:text-6xl lg:text-7xl font-bold hover:text-gray-600 transition-colors opacity-0 translate-y-12'
             style={{ fontFamily: 'Astila-Regular' }}
             onClick={handleMenuClick}
           >
-            Individual Points
+            Arts
           </a>
           <a
-            href="#gallery"
+            href="sports"
+            className='fullpage-menu-item text-black text-4xl md:text-6xl lg:text-7xl font-bold hover:text-gray-600 transition-colors opacity-0 translate-y-12'
+            style={{ fontFamily: 'Astila-Regular' }}
+            onClick={handleMenuClick}
+          >
+            Sports
+          </a>
+          <a
+            href="https://cucekphotographyclub.club/" target='_blank'
             className='fullpage-menu-item text-black text-4xl md:text-6xl lg:text-7xl font-bold hover:text-gray-600 transition-colors opacity-0 translate-y-12'
             style={{ fontFamily: 'Astila-Regular' }}
             onClick={handleMenuClick}
@@ -599,12 +607,15 @@ const Hero = () => {
                   Brochure
                 </a>
                 <a href="totalpoints" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }} >
-                  Total Points
+                  Point Table
                 </a>
-                <a href="#individual-points" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
-                  Individual Points
+                <a href="arts" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
+                  Arts
                 </a>
-                <a href="#gallery" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
+                <a href="sports" className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
+                  Sports
+                </a>
+                <a href="https://cucekphotographyclub.club/" target='_blank' className='text-white hover:text-gray-300 transition-colors text-sm md:text-sm' style={{ fontFamily: 'textfont' }}>
                   Gallery
                 </a>
               </div>
