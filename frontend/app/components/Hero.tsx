@@ -2,7 +2,7 @@
 import { div } from 'framer-motion/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
-import React, { useEffect, useState } from 'react'
+import React, { act, useEffect, useRef, useState } from 'react'
 import sattva from '../../assets/sattva.png';
 import cusat from '../../assets/cusatlogo.png';
 
@@ -16,8 +16,32 @@ type TimeLeft ={
 
 const TARGET_DATE = new Date("2026-03-07T00:00:00")
 
+interface DepartmentData {
+  name: string;
+  shortName: string;
+  artsPoints: number;
+  sportsPoints: number;
+  totalPoints: number;
+  color: string;
+}
+
+
+const departmentsData: DepartmentData[] = [
+  { name: "Computer Science", shortName: "CS", artsPoints: 245, sportsPoints: 189, totalPoints: 434, color: "#590d22" },
+  { name: "Electrical", shortName: "EE", artsPoints: 198, sportsPoints: 234, totalPoints: 432, color: "#7f1d1d" },
+  { name: "Electronics", shortName: "EC", artsPoints: 223, sportsPoints: 187, totalPoints: 410, color: "#991b1b" },
+  { name: "Mechanical", shortName: "ME", artsPoints: 176, sportsPoints: 198, totalPoints: 374, color: "#a52a2a" },
+  { name: "Civil", shortName: "CE", artsPoints: 189, sportsPoints: 165, totalPoints: 354, color: "#b91c1c" },
+  { name: "Information Technology", shortName: "IT", artsPoints: 167, sportsPoints: 156, totalPoints: 323, color: "#c2410c" },
+];
 
 const Hero = () => {  
+  const [activeView, setActiveView] = useState<'total' | 'arts' | 'sports'>('total');
+
+  const pointRef = useRef(null);
+  const pointCardRef = useRef(null);
+
+  const [sortedDepts, setSortedDepts] = useState(departmentsData);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
@@ -108,7 +132,7 @@ const Hero = () => {
 
 
       tl.to('.hero-fore',{
-        scale: width > 768 ? 0.85 : 1.5,
+        scale: width > 768 ? 0.95 : 1.5,
         y:width >768 ? "-30%" : '-10%',
         ease:"sine.in"
       },0)
@@ -116,24 +140,25 @@ const Hero = () => {
 
       tl.to('.about-text',{
         opacity: 1,
-        scale:1.2,
+        scale: width > 768 ? 1.2 : 1.3,
         duration:1,
-        // y:'-40vh',
-        y:'-10vh',
+        y:width > 768 ? '-40vh' : '-10vh',
+        // y:'-10vh',
         scrollTrigger:{
-          srub:1.2
+          scrub:1.2
         },
-        zIndex:30
-      },0.7);
+        zIndex:width > 768 ? 30 : 60
+      },0.5);
 
       gsap.to('.hero-fore',{
         opacity:0,
         scrollTrigger:{
           trigger:'hero-fore',
           start: width > 768 ? '20% top' : '30% top',
+          end:'center 40%',
           scrub:1
         },
-        duration:3,
+        duration:1,
         
       })
 
@@ -161,7 +186,7 @@ const Hero = () => {
         scrub: 0.5,
         start: width > 768 ? 'top 30%' : 'top 40%',
         end:'+=100%',
-        markers:true
+        
       }})
 
       gsap.set(".about-img", {
@@ -194,7 +219,45 @@ const Hero = () => {
       },1.2)
 
 
+      const ptl = gsap.timeline({scrollTrigger:{
+        trigger:'.point-content',
+        start:width > 768 ? "top 80%" : "top 90%",
+        end: "+=100%",
+        toggleActions: "play reverse play reverse",
+        scrub:0.6,
+      },
+    ease:"none"})
 
+      ptl.to('.point-title',{
+        opacity:1,
+        color:'#fef9ef',
+        y:"-20%",
+        scale:1.2,
+        duration:0.5,
+        
+      })
+
+    //   const pointtl = gsap.timeline({scrollTrigger:{
+    //     trigger:'.point-content',
+    //     start:width > 768 ? "top 70%" : "bottom 90%",
+    //     end: "+=100%",
+    //     toggleActions: "play reverse play reverse",
+    //     scrub:1.5,
+    //     pin:pointRef.current,
+        
+    //     markers:true,
+    // }})
+
+    // pointtl.to(pointCardRef.current,{
+    //   x:'-100px',
+    //   duration:5,
+      
+    // })
+
+    // pointtl.to(pointCardRef.current,{
+    //   scale:1.2,
+    //   duration:2
+    // },0.2)
     
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -202,8 +265,73 @@ const Hero = () => {
     }, [mounted]);
 
     useEffect(() => {
+      if (!mounted || !pointRef.current) return;
+    
+      const ctx = gsap.context(() => {
+    
+        const container = pointRef.current;
+    
+        const totalWidth = container.scrollWidth;
+        const viewportWidth = window.innerWidth;
+
+        gsap.set(".point-card", { scale: 0.6 });
+
+    
+        const horizontalTween = gsap.to(container, {
+          x: () => -(totalWidth - viewportWidth) + 100,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".point-content",
+            start: "top top",
+            end: () => `+=${totalWidth}`,
+            scrub: 1.2,
+            pin: true,
+            anticipatePin: 1,
+          }
+        });
+        
+
+        gsap.utils.toArray(".point-card").forEach((card: any) => {
+          gsap.fromTo(card,
+            { scale: 0.5 },
+            {
+              scale: 1.0,
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: horizontalTween,
+                start: "center 80%",
+                end: "center 20%",
+                scrub: true,
+              }
+            }
+          );
+        });
+        
+    
+      });
+    
+      return () => ctx.revert();
+    }, [mounted]);
+    
+
+    useEffect(() => {
         setWidth(window.innerWidth);
     },[])
+
+    useEffect( () => {
+      const sorted = [...departmentsData].sort((a, b) => {
+        if (activeView === 'total') return b.totalPoints - a.totalPoints;
+        if (activeView === 'arts') return b.artsPoints - a.artsPoints;
+        return b.sportsPoints - a.sportsPoints;
+      });
+      setSortedDepts(sorted);
+  
+    },[activeView]);
+
+    const maxPoints = Math.max(...sortedDepts.map(d =>
+      activeView === 'total' ? d.totalPoints :
+        activeView === 'arts' ? d.artsPoints : d.sportsPoints
+    ));
 
     // useEffect(() => {
     //   if (!mounted) return;
@@ -298,8 +426,8 @@ const Hero = () => {
 
 
               <div className=' about-text left-1/2 -translate-x-1/2   space-x-5 text-[150px] md:text-[250px] text-[white] absolute top-[50%] z-0 opacity-0 ' style={{fontFamily:'Astila-Regular'}} >
-                {/* <img src={sattva.src} alt="" /> */}
-                <p>SATTVA</p>
+                <img src={sattva.src} alt="" />
+                {/* <p>SATTVA</p> */}
               </div>
 
               
@@ -315,13 +443,117 @@ const Hero = () => {
       </div>
       
     </div>
-    <div className='bg-[#0b090a] h-[200vh] flex flex-col about-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
+
+
+    {/* Total Point Board */}
+    <div className='bg-[#0b090a]  flex flex-col point-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
+
+
+    <p className='text-[30px] md:text-[100px] opacity-0 mt-[5vh] point-title'>LeaderBoard</p>
+
+    <div
+  className='point-table flex md:flex-row gap-x-[50px] h-[60dvh] md:h-[400px] pr-[80vw]'
+  ref={pointRef}
+>
+    {sortedDepts.map((dept,index) => {
+      const currentPoints =
+      activeView === 'total' ? dept.totalPoints :
+        activeView === 'arts' ? dept.artsPoints : dept.sportsPoints;
+
+    const percentage = (currentPoints / maxPoints) * 100;
+
+    return(
+      <div
+  key={dept.shortName}
+  className="point-card min-w-[250px] md:min-w-[400px] h-[120px] md:h-[300px] bg-white/5  rounded-[20px] p-[20px]"
+>
+  {/* Rank Badge */}
+  <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-[#590d22] flex items-center justify-center">
+                <span className="text-white font-bold text-lg" style={{ fontFamily: 'textfont' }}>
+                  {index + 1}
+                </span>
+              </div>
+
+              {/* Department Short Name - Large Background */}
+              <div className="absolute top-1/2 right-4 -translate-y-1/2 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
+                <h2 className="text-9xl font-bold" style={{ fontFamily: 'Astila-Regular', color: dept.color }}>
+                  {dept.shortName}
+                </h2>
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10">
+                <h3 className="text-xl font-bold text-[#fef9ef] mb-2 tracking-wider" style={{ fontFamily: 'textfont' }}>
+                  {dept.name}
+                </h3>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-6" style={{ fontFamily: 'textfont' }}>
+                  {dept.shortName}
+                </p>
+
+                {/* Points Display */}
+                <div className="mb-6">
+                  <div className="flex items-end gap-2 mb-2">
+                    <span className="text-5xl font-bold text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
+                      {currentPoints}
+                    </span>
+                    <span className="text-sm text-white/50 pb-2" style={{ fontFamily: 'textfont' }}>
+                      points
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-1000 ease-out"
+                      style={{
+                        width: `${percentage}%`,
+                        backgroundColor: dept.color,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Breakdown - Only show when total view is active */}
+                {activeView === 'total' && (
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white/40 mb-1" style={{ fontFamily: 'textfont' }}>
+                        Arts
+                      </p>
+                      <p className="text-2xl font-bold text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
+                        {dept.artsPoints}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white/40 mb-1" style={{ fontFamily: 'textfont' }}>
+                        Sports
+                      </p>
+                      <p className="text-2xl font-bold text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
+                        {dept.sportsPoints}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Decorative Corner Element */}
+              <div className="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+                <div
+                  className="absolute bottom-0 left-0 w-full h-full rounded-tr-full"
+                  style={{ backgroundColor: dept.color }}
+                />
+              </div>
+</div>
+
+    )
+    })}
+    </div>
+    {/* <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
     <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
     <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
     <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
     <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
-    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
-    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div>
+    <div className='about-img  bg-white rounded-[20px] w-screen h-[200px] md:h-[300px]'>IMage 1</div> */}
       
     </div>
     </div>
