@@ -6,7 +6,24 @@ import axios from 'axios';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const events = [
+interface Event {
+  cat: string;
+  events: [string, string][];
+}
+
+interface SelectedEvent {
+  code: string;
+  name: string;
+}
+
+interface ResultItem {
+  position: number;
+  participant_code: string;
+  name: string;
+  mark: number;
+}
+
+const events: Event[] = [
   {
     'cat': 'LITERARY EVENTS',
     'events': [['EWM', 'ESSAY WRITING MALAYALAM'], ['EWE', 'ESSAY WRITING ENGLISH'], ['EWH', 'ESSAY WRITING HINDI'], ['PWM', 'POETRY WRITING MALAYALAM'], ['PWE', 'POETRY WRITING ENGLISH'], ['PWH', 'POETRY WRITING HINDI'], ['SSM', 'SHORT STORY MALAYALAM'], ['SSE', 'SHORT STORY ENGLISH'], ['SSH', 'SHORT STORY HINDI'], ['EM', 'ELOCUTION MALAYALAM'], ['EH', 'ELOCUTION HINDI'], ['EE', 'ELOCUTION ENGLISH'], ['RM', 'RECITATION MALAYALAM'], ['RE', 'RECITATION ENGLISH'], ['RH', 'RECITATION HINDI'], ['QZ', 'QUIZ'], ['FRM', 'FILM REVIEW MALAYALAM'], ['FRE', 'FILM REVIEW ENGLISH'], ['DE', 'DEBATE ENGLISH'], ['DM', 'DEBATE MALAYALAM'], ['DH', 'DEBATE HINDI']]
@@ -32,10 +49,10 @@ const events = [
 const baseUrl = "YOUR_API_BASE_URL"; 
 
 export default function IndividualArtsPoints() {
-  const [selectedCategory, setSelectedCategory] = useState(events[0]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<Event>(events[0]);
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<ResultItem[]>([]);
   const [mounted, setMounted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -46,7 +63,6 @@ export default function IndividualArtsPoints() {
   useEffect(() => {
     if (!mounted) return;
 
-    // Animate category cards
     gsap.fromTo(
       '.category-card',
       {
@@ -62,7 +78,6 @@ export default function IndividualArtsPoints() {
       }
     );
 
-    // Animate event cards
     gsap.fromTo(
       '.event-card',
       {
@@ -81,10 +96,10 @@ export default function IndividualArtsPoints() {
 
   }, [mounted, selectedCategory]);
 
-  async function fetchData(code:string) {
+  async function fetchData(code: string) {
     try {
       const response = await axios.get(`${baseUrl}/getIndividualArts?code=${code}`);
-      const sortedData = response.data.sort((a:any, b:any) => a.position - b.position);
+      const sortedData = response.data.sort((a: ResultItem, b: ResultItem) => a.position - b.position);
       setResult(sortedData);
     } catch (e) {
       console.error("Error fetching data:", e);

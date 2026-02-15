@@ -6,7 +6,24 @@ import axios from "axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sportsEvents = [
+interface SportsEvent {
+  cat: string;
+  events: [string, string][];
+}
+
+interface SelectedEvent {
+  code: string;
+  name: string;
+}
+
+interface ResultItem {
+  position: number;
+  dept: string;
+  name: string;
+  mark: number;
+}
+
+const sportsEvents: SportsEvent[] = [
   {
     cat: "Sports Events",
     events: [
@@ -29,10 +46,10 @@ const sportsEvents = [
 const baseUrl = "YOUR_API_BASE_URL"; // Replace with your actual base URL
 
 export default function IndividualSportsPoints() {
-  const [selectedCategory, setSelectedCategory] = useState(sportsEvents[0]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<SportsEvent>(sportsEvents[0]);
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<ResultItem[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -61,10 +78,10 @@ export default function IndividualSportsPoints() {
 
   }, [mounted]);
 
-  async function fetchData(code) {
+  async function fetchData(code: string) {
     try {
       const response = await axios.get(`${baseUrl}/getIndividualSports?code=${code}`);
-      const sortedData = response.data.sort((a, b) => a.position - b.position);
+      const sortedData = response.data.sort((a: ResultItem, b: ResultItem) => a.position - b.position);
       setResult(sortedData);
     } catch (e) {
       console.error("Error fetching data:", e);
