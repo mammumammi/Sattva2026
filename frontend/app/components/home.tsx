@@ -1,8 +1,7 @@
 "use client";
-import { div } from 'framer-motion/client';
+
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 import sattvalogo from '../../assets/images/sattva.png'
