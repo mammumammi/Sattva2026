@@ -25,7 +25,7 @@ const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const [width, setWidth] = useState<number | null>(null);
+  const [width, setWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 768);
 
   const calculateTimeLeft = (): TimeLeft => {
     const now = new Date().getTime();
