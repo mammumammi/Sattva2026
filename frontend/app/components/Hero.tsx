@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 
 import sattvalogo from '../../assets/images/sattva.png'
 import cusatlogo from '../../assets/images/cusatlogo.png'
+import Image from 'next/image';
 
 
 gsap.registerPlugin(ScrollTrigger);

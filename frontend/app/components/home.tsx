@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 
 import sattvalogo from '../../assets/images/sattva.png'
 import cusatlogo from '../../assets/images/cusatlogo.png'
+import Image from 'next/image';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -571,7 +572,7 @@ const Hero = () => {
               className="w-28 sm:w-20 md:w-28 lg:w-36 h-auto"
               priority
             />
-
+          
           </div>
           <div className='cusat-logo z-50 fixed top-6 ml-[5vw] font-bold sm:w-24 md:w-40 lg:w-20'>
             <Image src={cusatlogo} alt="cusat"
