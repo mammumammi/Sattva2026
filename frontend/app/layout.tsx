@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +28,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+       
+       <div
+          id="transition-overlay"
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "black",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1, // Behind everything by default
+            transition: "z-index 0s", // Instant z-index change
+          }}
+        />
         {children}
       </body>
+      
     </html>
   );
 }

@@ -68,6 +68,18 @@ const Hero = () => {
 
   const [timeLeft,setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
+  useEffect(() => {
+    const overlay = document.getElementById('transition-overlay');
+    if (overlay && overlay.style.opacity !== '0') {
+      gsap.to(overlay, {
+        opacity: 0,
+        onComplete: () => {
+          overlay.style.zIndex = '-1'; // Send back behind
+        }
+      });
+    }
+  }, []);
+
   useEffect( () => {
     setMounted(true);
       const timer = setInterval( () => {
@@ -105,6 +117,21 @@ const Hero = () => {
   
     useEffect(() => {
       if (!mounted) return;
+
+      gsap.set(".about-text", {
+        clearProps: "all",
+        position: "absolute",
+        top: "60%",
+        left: "50%",
+        x: "-50%",
+        y: "-50%",
+        opacity: 0
+      });
+
+      gsap.set('.about-text',{
+        x:'-50%'
+      })
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".inner-hero-wrapper",
@@ -152,12 +179,14 @@ const Hero = () => {
         ease:"sine.in"
       },0)
 
+     
 
       tl.to('.about-text',{
         opacity: 1,
         scale: width > 768 ? 1.2 : 1.3,
         duration:1,
-        y:width > 768 ? '-40vh' : '-10vh',
+        yPercent: width > 768 ? -40 : -10, 
+        
         // y:'-10vh',
         scrollTrigger:{
           scrub:1.2
@@ -169,7 +198,7 @@ const Hero = () => {
         opacity:0,
         scrollTrigger:{
           trigger:'.hero-fore',
-          start: width > 768 ? '20% top' : '30% top',
+          start: width > 768 ? '50% top' : '30% top',
           end:'center 40%',
           scrub:1
         },
@@ -415,8 +444,8 @@ const Hero = () => {
     // if (!mounted) return null;
 
   return (
-    <div className='overflow-hidden w-screen'>
-    <div className='min-h-[200vh] md:min-h-[300vh]  '> {/* Increased height for extended pin */}
+    <div className='overflow-hidden w-screen '>
+    <div className='min-h-[200vh] md:min-h-[300vh] relative '> {/* Increased height for extended pin */}
       <div className="max-w-none flex flex-col justify-center ">
         <img src={cusat.src} className='hero-text w-[50px] ml-[5vw] z-10 fixed top-[1vh] left-0' style={{fontFamily:'hisyam'}}></img>
         
@@ -442,10 +471,9 @@ const Hero = () => {
               </div>
 
 
-              <div className=' about-text left-1/2 -translate-x-1/2   space-x-5 text-[150px] md:text-[250px] text-[white] absolute top-[50%] z-0 opacity-0 ' style={{fontFamily:'Astila-Regular'}} >
-                <img src={sattva.src} alt="" />
-                {/* <p>SATTVA</p> */}
-              </div>              
+              <div className='about-text absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-0 opacity-0' style={{fontFamily:'Astila-Regular'}}>
+  <img src={sattva.src} alt="" />
+</div>          
           </div>
         </div>
         
@@ -463,13 +491,13 @@ const Hero = () => {
     {/* Total Point Board */}
     <div className='bg-[#0b090a]   min-h-screen flex flex-col point-content md:text-[30px] text-[20px] text-[#d24b4b57]   w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
 
-    <div className='text-[30px] md:text-[80px] opacity-0 md:mt-[-10vh] point-title text-center md:space-y-[-50px] space-y-[-16px]' >
+    <div className='text-[30px] md:text-[80px] opacity-0 md:mt-[0vh] point-title text-center md:space-y-[-50px] space-y-[-16px]' >
 
     
     <p className=''>Department</p>
     <p className='text-[#ce6464dd]'>Standings</p>
     </div>
-    <div
+    <div id='point-table'
   className='point-table flex md:flex-row gap-x-[50px] h-[60dvh] md:h-[400px] pr-[80vw] mt-[15vh] md:mt-[50px]'
   ref={pointRef}
 >

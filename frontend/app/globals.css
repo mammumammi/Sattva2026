@@ -72,3 +72,8 @@ body {
   font-weight: normal;
   font-display: swap;
 }
+
+.transition-overlay-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
