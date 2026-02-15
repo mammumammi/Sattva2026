@@ -81,10 +81,10 @@ export default function IndividualArtsPoints() {
 
   }, [mounted, selectedCategory]);
 
-  async function fetchData(code) {
+  async function fetchData(code:string) {
     try {
       const response = await axios.get(`${baseUrl}/getIndividualArts?code=${code}`);
-      const sortedData = response.data.sort((a, b) => a.position - b.position);
+      const sortedData = response.data.sort((a:any, b:any) => a.position - b.position);
       setResult(sortedData);
     } catch (e) {
       console.error("Error fetching data:", e);

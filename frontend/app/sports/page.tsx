@@ -212,6 +212,7 @@ export default function IndividualSportsPoints() {
           SPORTS
         </p>
       </div>
+      
     </div>
   );
 }
