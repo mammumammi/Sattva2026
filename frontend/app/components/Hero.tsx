@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/all';
 import React, { act, useEffect, useRef, useState } from 'react'
 import sattva from '../../assets/sattva.png';
 import cusat from '../../assets/cusatlogo.png';
+import Navbar from './Navbar';
 
 gsap.registerPlugin(ScrollTrigger);
 type TimeLeft ={
@@ -27,12 +28,12 @@ interface DepartmentData {
 
 
 const departmentsData: DepartmentData[] = [
-  { name: "Computer Science", shortName: "CS", artsPoints: 245, sportsPoints: 189, totalPoints: 434, color: "#590d22" },
-  { name: "Electrical", shortName: "EE", artsPoints: 198, sportsPoints: 234, totalPoints: 432, color: "#7f1d1d" },
-  { name: "Electronics", shortName: "EC", artsPoints: 223, sportsPoints: 187, totalPoints: 410, color: "#991b1b" },
-  { name: "Mechanical", shortName: "ME", artsPoints: 176, sportsPoints: 198, totalPoints: 374, color: "#a52a2a" },
-  { name: "Civil", shortName: "CE", artsPoints: 189, sportsPoints: 165, totalPoints: 354, color: "#b91c1c" },
-  { name: "Information Technology", shortName: "IT", artsPoints: 167, sportsPoints: 156, totalPoints: 323, color: "#c2410c" },
+  { name: "Computer Science", shortName: "CS", artsPoints: 245, sportsPoints: 189, totalPoints: 434, color: "#ce6464dd" },
+  { name: "Electrical", shortName: "EE", artsPoints: 198, sportsPoints: 234, totalPoints: 432, color: "#ce6464dd" },
+  { name: "Electronics", shortName: "EC", artsPoints: 223, sportsPoints: 187, totalPoints: 410, color: "#ce6464dd" },
+  { name: "Mechanical", shortName: "ME", artsPoints: 176, sportsPoints: 198, totalPoints: 374, color: "#ce6464dd" },
+  { name: "Civil", shortName: "CE", artsPoints: 189, sportsPoints: 165, totalPoints: 354, color: "#ce6464dd" },
+  { name: "Information Technology", shortName: "IT", artsPoints: 167, sportsPoints: 156, totalPoints: 323, color: "#ce6464dd" },
 ];
 
 const Hero = () => {  
@@ -46,7 +47,7 @@ const Hero = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
 
-    const [width,setWidth] = useState<number | null>(null);
+  const [width, setWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 768);
 
     const calculateTimeLeft = (): TimeLeft => {
       const now = new Date().getTime();
@@ -87,6 +88,20 @@ const Hero = () => {
       </div>
     );
 
+    useEffect(() => {
+      const handleResize = () => {
+        setWidth(window.innerWidth);
+      };
+      
+      // Set initial width
+      handleResize();
+      
+      // Add resize listener
+      window.addEventListener('resize', handleResize);
+      
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
   
     useEffect(() => {
       if (!mounted) return;
@@ -95,7 +110,7 @@ const Hero = () => {
           trigger: ".inner-hero-wrapper",
           pin: '.inner-hero-wrapper',
           start: "top top",
-          end: "+=200%", // Extended pin duration for future content
+          end: width > 768 ? "+=200%" : "+=100%", // Extended pin duration for future content
           scrub: 0.6,
           
         },
@@ -153,7 +168,7 @@ const Hero = () => {
       gsap.to('.hero-fore',{
         opacity:0,
         scrollTrigger:{
-          trigger:'hero-fore',
+          trigger:'.hero-fore',
           start: width > 768 ? '20% top' : '30% top',
           end:'center 40%',
           scrub:1
@@ -262,7 +277,7 @@ const Hero = () => {
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       };
-    }, [mounted]);
+    }, [mounted,width]);
 
     useEffect(() => {
       if (!mounted || !pointRef.current) return;
@@ -274,11 +289,12 @@ const Hero = () => {
         const totalWidth = container.scrollWidth;
         const viewportWidth = window.innerWidth;
 
-        gsap.set(".point-card", { scale: 0.6 });
+        gsap.set(".point-card", { scale: 0.6,opacity:0 });
 
     
         const horizontalTween = gsap.to(container, {
-          x: () => -(totalWidth - viewportWidth) + 100,
+          x: () => width > 768 ? -(totalWidth - viewportWidth) - 600 :  -(totalWidth - viewportWidth),
+          opacity:1,
           ease: "none",
           scrollTrigger: {
             trigger: ".point-content",
@@ -296,6 +312,7 @@ const Hero = () => {
             { scale: 0.5 },
             {
               scale: 1.0,
+              opacity:1,
               scrollTrigger: {
                 trigger: card,
                 containerAnimation: horizontalTween,
@@ -311,7 +328,7 @@ const Hero = () => {
       });
     
       return () => ctx.revert();
-    }, [mounted]);
+    }, [mounted,width]);
     
 
     useEffect(() => {
@@ -398,9 +415,9 @@ const Hero = () => {
     // if (!mounted) return null;
 
   return (
-    <div>
-    <div className='min-h-[300vh] overflow-hidden'> {/* Increased height for extended pin */}
-      <div className="max-w-none flex flex-col justify-center">
+    <div className='overflow-hidden w-screen'>
+    <div className='min-h-[200vh] md:min-h-[300vh]  '> {/* Increased height for extended pin */}
+      <div className="max-w-none flex flex-col justify-center ">
         <img src={cusat.src} className='hero-text w-[50px] ml-[5vw] z-10 fixed top-[1vh] left-0' style={{fontFamily:'hisyam'}}></img>
         
         <div className="inner-hero-wrapper  relative h-screen"> {/* Changed to h-screen */}
@@ -428,9 +445,7 @@ const Hero = () => {
               <div className=' about-text left-1/2 -translate-x-1/2   space-x-5 text-[150px] md:text-[250px] text-[white] absolute top-[50%] z-0 opacity-0 ' style={{fontFamily:'Astila-Regular'}} >
                 <img src={sattva.src} alt="" />
                 {/* <p>SATTVA</p> */}
-              </div>
-
-              
+              </div>              
           </div>
         </div>
         
@@ -446,13 +461,16 @@ const Hero = () => {
 
 
     {/* Total Point Board */}
-    <div className='bg-[#0b090a]  flex flex-col point-content md:text-[30px] text-[20px] text-[#495057] text-center  w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
+    <div className='bg-[#0b090a]   min-h-screen flex flex-col point-content md:text-[30px] text-[20px] text-[#d24b4b57]   w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
 
+    <div className='text-[30px] md:text-[80px] opacity-0 md:mt-[-10vh] point-title text-center md:space-y-[-50px] space-y-[-16px]' >
 
-    <p className='text-[30px] md:text-[100px] opacity-0 mt-[5vh] point-title'>LeaderBoard</p>
-
+    
+    <p className=''>Department</p>
+    <p className='text-[#ce6464dd]'>Standings</p>
+    </div>
     <div
-  className='point-table flex md:flex-row gap-x-[50px] h-[60dvh] md:h-[400px] pr-[80vw]'
+  className='point-table flex md:flex-row gap-x-[50px] h-[60dvh] md:h-[400px] pr-[80vw] mt-[15vh] md:mt-[50px]'
   ref={pointRef}
 >
     {sortedDepts.map((dept,index) => {
@@ -465,10 +483,10 @@ const Hero = () => {
     return(
       <div
   key={dept.shortName}
-  className="point-card min-w-[250px] md:min-w-[400px] h-[120px] md:h-[300px] bg-white/5  rounded-[20px] p-[20px]"
+  className="point-card min-w-[250px] md:min-w-[400px] h-[120px] md:h-[300px] bg-white/5  rounded-[20px]  p-[20px]"
 >
   {/* Rank Badge */}
-  <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-[#590d22] flex items-center justify-center">
+  <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-[#ce6464dd] flex items-center justify-center">
                 <span className="text-white font-bold text-lg" style={{ fontFamily: 'textfont' }}>
                   {index + 1}
                 </span>
@@ -476,14 +494,14 @@ const Hero = () => {
 
               {/* Department Short Name - Large Background */}
               <div className="absolute top-1/2 right-4 -translate-y-1/2 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                <h2 className="text-9xl font-bold" style={{ fontFamily: 'Astila-Regular', color: dept.color }}>
+                <h2 className="text-9xl font-bold" style={{ fontFamily: 'textfont', color: dept.color }}>
                   {dept.shortName}
                 </h2>
               </div>
 
               {/* Content */}
               <div className="relative z-10">
-                <h3 className="text-xl font-bold text-[#fef9ef] mb-2 tracking-wider" style={{ fontFamily: 'textfont' }}>
+                <h3 className="text-[25px] font-extrabold text-[#fef9ef] mb-2 tracking-wider" style={{ fontFamily: 'textfont' }}>
                   {dept.name}
                 </h3>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-6" style={{ fontFamily: 'textfont' }}>
@@ -493,9 +511,9 @@ const Hero = () => {
                 {/* Points Display */}
                 <div className="mb-6">
                   <div className="flex items-end gap-2 mb-2">
-                    <span className="text-5xl font-bold text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
+                    <p className="text-3xl md:text-4xl font-bold text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
                       {currentPoints}
-                    </span>
+                    </p>
                     <span className="text-sm text-white/50 pb-2" style={{ fontFamily: 'textfont' }}>
                       points
                     </span>
