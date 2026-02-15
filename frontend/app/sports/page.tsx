@@ -7,7 +7,24 @@ import Navbar from "../components/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sportsEvents = [
+interface SportsEvent {
+  cat: string;
+  events: [string, string][];
+}
+
+interface SelectedEvent {
+  code: string;
+  name: string;
+}
+
+interface ResultItem {
+  position: number;
+  dept: string;
+  name: string;
+  mark: number;
+}
+
+const sportsEvents: SportsEvent[] = [
   {
     cat: "Sports Events",
     events: [
@@ -27,13 +44,13 @@ const sportsEvents = [
   },
 ];
 
-const baseUrl = "YOUR_API_BASE_URL"; // Replace with your actual base URL
+const baseUrl = "YOUR_API_BASE_URL";
 
 export default function IndividualSportsPoints() {
-  const [selectedCategory, setSelectedCategory] = useState(sportsEvents[0]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<SportsEvent>(sportsEvents[0]);
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<ResultItem[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -42,7 +59,7 @@ export default function IndividualSportsPoints() {
       gsap.to(overlay, {
         opacity: 0,
         onComplete: () => {
-          overlay.style.zIndex = '-1'; // Send back behind
+          overlay.style.zIndex = '-1';
         }
       });
     }
@@ -83,7 +100,7 @@ export default function IndividualSportsPoints() {
         duration:0.6,
         y:10
     },0)
-    // Animate event cards
+
     sportstl.to(
       '.event-card',
       {
@@ -92,18 +109,15 @@ export default function IndividualSportsPoints() {
         stagger: 0.05,
         duration: 0.5,
         ease: "power2.out",
-        
       }
     );
 
-    
-
   }, [mounted]);
 
-  async function fetchData(code) {
+  async function fetchData(code: string) {
     try {
       const response = await axios.get(`${baseUrl}/getIndividualSports?code=${code}`);
-      const sortedData = response.data.sort((a, b) => a.position - b.position);
+      const sortedData = response.data.sort((a: ResultItem, b: ResultItem) => a.position - b.position);
       setResult(sortedData);
     } catch (e) {
       console.error("Error fetching data:", e);
@@ -111,8 +125,7 @@ export default function IndividualSportsPoints() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b090a] text-white">
-      {/* Header */}
+    <div className="min-h-screen md:h-[160vh] bg-[#0b090a] text-white">
       <div className="sports-title opacity-0 text-[80px]  md:text-[120px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[10vh] md:top-[18vh] absolute rotate-270 -left-[19%] md:-left-[8%]">SPORTS</p></div>
       <div className=" pb-12 px-4 md:px-8 pt-[32vh] sports-title1 opacity-0">
         <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
@@ -126,7 +139,6 @@ export default function IndividualSportsPoints() {
         </h1>
       </div>
 
-      {/* Events Grid */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20 sports opacity-0">
         <h2 className="text-2xl md:text-3xl font-semibold text-[#ce6464dd] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
           {selectedCategory.cat}
@@ -143,7 +155,6 @@ export default function IndividualSportsPoints() {
                 setIsModalOpen(true);
               }}
             >
-              {/* Sport Icon Background */}
               <div className="absolute top-2 right-2 text-4xl opacity-10 group-hover:opacity-20 transition-opacity">
                 {code.includes('football') ? '⚽' :
                   code.includes('volleyball') ? '🏐' :
@@ -167,11 +178,9 @@ export default function IndividualSportsPoints() {
         </div>
       </div>
 
-      {/* Results Modal */}
       {isModalOpen && selectedEvent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-50 px-4">
           <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6 md:p-8 w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
-            {/* Modal Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[#ce6464dd] font-bold text-sm px-3 py-1 bg-[#ce6464dd]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
@@ -194,7 +203,6 @@ export default function IndividualSportsPoints() {
               </p>
             </div>
 
-            {/* Table */}
             <div className="flex-1 overflow-auto">
               <table className="w-full">
                 <thead className="sticky top-0 bg-[#1a1a1a] border-b border-white/10">
@@ -232,7 +240,6 @@ export default function IndividualSportsPoints() {
               </table>
             </div>
 
-            {/* Modal Footer */}
             <div className="mt-6 pt-4 border-t border-white/10">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -246,7 +253,6 @@ export default function IndividualSportsPoints() {
         </div>
       )}
 
-      {/* Decorative Background Element */}
       <div className="fixed top-1/2 -left-[10%] -translate-y-1/2 opacity-5 pointer-events-none">
         <p className="text-[15vw] font-bold rotate-270 origin-center text-[#ce6464dd]" style={{ fontFamily: 'Astila-Regular' }}>
           SPORTS

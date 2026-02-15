@@ -5,9 +5,27 @@ import { ScrollTrigger } from 'gsap/all';
 import axios from 'axios';
 import Navbar from "../components/Navbar";
 import artsmain from "../../public/artmain.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
-const events = [
+interface Event {
+  cat: string;
+  events: [string, string][];
+}
+
+interface SelectedEvent {
+  code: string;
+  name: string;
+}
+
+interface ResultItem {
+  position: number;
+  participant_code: string;
+  name: string;
+  mark: number;
+}
+
+const events: Event[] = [
   {
     'cat': 'LITERARY EVENTS',
     'events': [['EWM', 'ESSAY WRITING MALAYALAM'], ['EWE', 'ESSAY WRITING ENGLISH'], ['EWH', 'ESSAY WRITING HINDI'], ['PWM', 'POETRY WRITING MALAYALAM'], ['PWE', 'POETRY WRITING ENGLISH'], ['PWH', 'POETRY WRITING HINDI'], ['SSM', 'SHORT STORY MALAYALAM'], ['SSE', 'SHORT STORY ENGLISH'], ['SSH', 'SHORT STORY HINDI'], ['EM', 'ELOCUTION MALAYALAM'], ['EH', 'ELOCUTION HINDI'], ['EE', 'ELOCUTION ENGLISH'], ['RM', 'RECITATION MALAYALAM'], ['RE', 'RECITATION ENGLISH'], ['RH', 'RECITATION HINDI'], ['QZ', 'QUIZ'], ['FRM', 'FILM REVIEW MALAYALAM'], ['FRE', 'FILM REVIEW ENGLISH'], ['DE', 'DEBATE ENGLISH'], ['DM', 'DEBATE MALAYALAM'], ['DH', 'DEBATE HINDI']]
@@ -33,10 +51,10 @@ const events = [
 const baseUrl = "YOUR_API_BASE_URL"; 
 
 export default function IndividualArtsPoints() {
-  const [selectedCategory, setSelectedCategory] = useState(events[0]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<Event>(events[0]);
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<ResultItem[]>([]);
   const [mounted, setMounted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -46,12 +64,11 @@ export default function IndividualArtsPoints() {
       gsap.to(overlay, {
         opacity: 0,
         onComplete: () => {
-          overlay.style.zIndex = '-1'; // Send back behind
+          overlay.style.zIndex = '-1';
         }
       });
     }
   }, []);
-
 
   useEffect(() => {
     setMounted(true);
@@ -81,7 +98,7 @@ export default function IndividualArtsPoints() {
         ease:"power4",
         stagger:0.5
     },0)
-    // Animate category cards
+
     artstl.fromTo(
       '.category-card',
       {
@@ -97,7 +114,6 @@ export default function IndividualArtsPoints() {
       }
     ,0.5);
 
-    // Animate event cards
     artstl.fromTo(
       '.event-card',
       {
@@ -113,8 +129,6 @@ export default function IndividualArtsPoints() {
         delay: 0.3
       }
     ,0.6);
-
-    
 
     artstl.to(['.cat','.events'],{
         opacity:1,
@@ -138,10 +152,10 @@ export default function IndividualArtsPoints() {
 
   }, [mounted, selectedCategory]);
 
-  async function fetchData(code) {
+  async function fetchData(code: string) {
     try {
       const response = await axios.get(`${baseUrl}/getIndividualArts?code=${code}`);
-      const sortedData = response.data.sort((a, b) => a.position - b.position);
+      const sortedData = response.data.sort((a: ResultItem, b: ResultItem) => a.position - b.position);
       setResult(sortedData);
     } catch (e) {
       console.error("Error fetching data:", e);
@@ -149,11 +163,10 @@ export default function IndividualArtsPoints() {
   }
 
   return (
-    <div className="min-h-screen h-[150vh]  arts overflow-hidden bg-[#0b090a] text-white" id="individual-points">
+    <div className="min-h-screen md:h-[160vh]  arts overflow-hidden bg-[#0b090a] text-white" id="individual-points">
         <div className="arts-title text-[80px]  md:text-[150px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[8vh] md:top-[12vh] absolute rotate-270 -left-[8%] md:-left-[5%]">ARTS</p>
             <img src={artsmain.src} alt=""  className="absolute top-[35vh] scale-200 md:top-0 md:-mt-[35vh] md:scale-90 brightness-50 md:brightness-70 arts-img"/>
         </div>
-      {/* Header */}
       <div className="pt-[28vh] md:pt-[20vh] pb-12 px-4 md:px-8 arts-title1">
         <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown
@@ -166,7 +179,6 @@ export default function IndividualArtsPoints() {
         </h1>
       </div>
 
-      {/* Category Selector */}
       <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8">
         <div className="relative inline-block w-full md:w-auto">
           <button
@@ -206,7 +218,6 @@ export default function IndividualArtsPoints() {
         </div>
       </div>
 
-      {/* Events Grid */}
       <div className="max-w-7xl events opacity-0 mx-auto px-4 md:px-8 pb-20">
         <h2 className="text-2xl md:text-3xl font-semibold text-[#ce6464dd] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
           {selectedCategory.cat}
@@ -236,11 +247,9 @@ export default function IndividualArtsPoints() {
         </div>
       </div>
 
-      {/* Results Modal */}
       {isModalOpen && selectedEvent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-50 px-4">
           <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6 md:p-8 w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
-            {/* Modal Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[#ce6464dd] font-bold text-sm px-3 py-1 bg-[#ce6464dd]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
@@ -263,7 +272,6 @@ export default function IndividualArtsPoints() {
               </p>
             </div>
 
-            {/* Table */}
             <div className="flex-1 overflow-auto">
               <table className="w-full">
                 <thead className="sticky top-0 bg-[#1a1a1a] border-b border-white/10">
@@ -301,7 +309,6 @@ export default function IndividualArtsPoints() {
               </table>
             </div>
 
-            {/* Modal Footer */}
             <div className="mt-6 pt-4 border-t border-white/10">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -315,7 +322,6 @@ export default function IndividualArtsPoints() {
         </div>
       )}
 
-      {/* Decorative Background Element */}
       <div className="fixed top-1/2 -left-[10%]  -translate-y-1/2 opacity-5 pointer-events-none">
         <p className="text-[15vw] font-bold -rotate-270 origin-center text-[#ce6464dd]" style={{ fontFamily: 'Astila-Regular' }}>
           ARTS
