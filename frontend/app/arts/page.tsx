@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import axios from 'axios';
 import Navbar from "../components/Navbar";
-
+import artsmain from "../../public/artmain.png";
 gsap.registerPlugin(ScrollTrigger);
 
 const events = [
@@ -59,9 +59,30 @@ export default function IndividualArtsPoints() {
 
   useEffect(() => {
     if (!mounted) return;
+    const artstl = gsap.timeline({ease:"none"});
 
+    gsap.set(['.arts-title','.arts-title1','.arts-img'],{
+        opacity:0,
+    });
+
+    artstl.to('.arts-title',{
+        opacity:1,
+        duration:1.5
+    })
+
+    artstl.fromTo(['.arts-title1'],{
+        x:'-100%',
+        scale:0.9
+    },{
+        x:'0',
+        scale:0.92,
+        opacity:1,
+        duration:1,
+        ease:"power4",
+        stagger:0.5
+    },0)
     // Animate category cards
-    gsap.fromTo(
+    artstl.fromTo(
       '.category-card',
       {
         y: 30,
@@ -74,10 +95,10 @@ export default function IndividualArtsPoints() {
         duration: 0.6,
         ease: "power3.out",
       }
-    );
+    ,0.5);
 
     // Animate event cards
-    gsap.fromTo(
+    artstl.fromTo(
       '.event-card',
       {
         y: 20,
@@ -91,7 +112,29 @@ export default function IndividualArtsPoints() {
         ease: "power2.out",
         delay: 0.3
       }
-    );
+    ,0.6);
+
+    
+
+    artstl.to(['.cat','.events'],{
+        opacity:1,
+        y:'-15px',
+        duration:1
+    },0.5)
+    
+    gsap.to('.arts-img',{
+        opacity:1,
+        scale:1.0,
+        y:'-2vh',
+        scrollTrigger:{
+            trigger:'.arts',
+            start:'center 70%',
+            end:'100%',
+            scrub:3.9,
+            markers:true,
+        },
+        duration:2,
+    })
 
   }, [mounted, selectedCategory]);
 
@@ -106,10 +149,13 @@ export default function IndividualArtsPoints() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b090a] text-white" id="individual-points">
+    <div className="min-h-screen h-[150vh]  arts overflow-hidden bg-[#0b090a] text-white" id="individual-points">
+        <div className="arts-title text-[80px]  md:text-[150px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[8vh] md:top-[12vh] absolute rotate-270 -left-[8%] md:-left-[5%]">ARTS</p>
+            <img src={artsmain.src} alt=""  className="absolute top-[35vh] scale-200 md:top-0 md:-mt-[35vh] md:scale-90 brightness-50 md:brightness-70 arts-img"/>
+        </div>
       {/* Header */}
-      <div className="pt-20 pb-12 px-4 md:px-8">
-        <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#590d22] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
+      <div className="pt-[28vh] md:pt-[20vh] pb-12 px-4 md:px-8 arts-title1">
+        <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown
         </p>
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
@@ -121,7 +167,7 @@ export default function IndividualArtsPoints() {
       </div>
 
       {/* Category Selector */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mb-8">
+      <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8">
         <div className="relative inline-block w-full md:w-auto">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -131,7 +177,7 @@ export default function IndividualArtsPoints() {
               {selectedCategory.cat}
             </span>
             <svg
-              className={`w-5 h-5 text-[#590d22] transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              className={`w-5 h-5 text-[#ce6464dd] transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -161,8 +207,8 @@ export default function IndividualArtsPoints() {
       </div>
 
       {/* Events Grid */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-[#590d22] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
+      <div className="max-w-7xl events opacity-0 mx-auto px-4 md:px-8 pb-20">
+        <h2 className="text-2xl md:text-3xl font-semibold text-[#ce6464dd] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
           {selectedCategory.cat}
         </h2>
 
@@ -170,7 +216,7 @@ export default function IndividualArtsPoints() {
           {selectedCategory.events.map(([code, name], i) => (
             <div
               key={i}
-              className="event-card bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 cursor-pointer hover:bg-white/10 hover:border-[#590d22]/50 transition-all duration-300 group"
+              className="event-card bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 cursor-pointer hover:bg-white/10 hover:border-[#ce6464dd]/50 transition-all duration-300 group"
               onClick={() => {
                 setSelectedEvent({ code, name });
                 fetchData(code);
@@ -178,7 +224,7 @@ export default function IndividualArtsPoints() {
               }}
             >
               <div className="flex items-start gap-3">
-                <span className="text-[#590d22] font-bold text-sm px-3 py-1 bg-[#590d22]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
+                <span className="text-[#ce6464dd] font-bold text-sm px-3 py-1 bg-[#ce6464dd]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
                   {code}
                 </span>
                 <span className="flex-1 text-[#fef9ef] group-hover:text-white transition-colors" style={{ fontFamily: 'var(--font-text)' }}>
@@ -197,7 +243,7 @@ export default function IndividualArtsPoints() {
             {/* Modal Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[#590d22] font-bold text-sm px-3 py-1 bg-[#590d22]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
+                <span className="text-[#ce6464dd] font-bold text-sm px-3 py-1 bg-[#ce6464dd]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
                   {selectedEvent.code}
                 </span>
                 <button
@@ -240,7 +286,7 @@ export default function IndividualArtsPoints() {
                           {res.position}
                         </div>
                       </td>
-                      <td className="p-3 text-[#590d22] font-semibold uppercase" style={{ fontFamily: 'var(--font-text)' }}>
+                      <td className="p-3 text-[#ce6464dd] font-semibold uppercase" style={{ fontFamily: 'var(--font-text)' }}>
                         {res.participant_code}
                       </td>
                       <td className="p-3 text-[#fef9ef]" style={{ fontFamily: 'var(--font-text)' }}>
@@ -259,7 +305,7 @@ export default function IndividualArtsPoints() {
             <div className="mt-6 pt-4 border-t border-white/10">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="w-full bg-[#590d22] hover:bg-[#590d22]/80 text-white font-semibold py-3 rounded-xl transition-colors"
+                className="w-full bg-[#ce6464dd] hover:bg-[#ce6464dd]/80 text-white font-semibold py-3 rounded-xl transition-colors"
                 style={{ fontFamily: 'var(--font-text)' }}
               >
                 Close
@@ -270,8 +316,8 @@ export default function IndividualArtsPoints() {
       )}
 
       {/* Decorative Background Element */}
-      <div className="fixed top-1/2 left-0 -translate-y-1/2 opacity-5 pointer-events-none">
-        <p className="text-[20vw] font-bold -rotate-90 origin-center text-[#590d22]" style={{ fontFamily: 'Astila-Regular' }}>
+      <div className="fixed top-1/2 -left-[10%]  -translate-y-1/2 opacity-5 pointer-events-none">
+        <p className="text-[15vw] font-bold -rotate-270 origin-center text-[#ce6464dd]" style={{ fontFamily: 'Astila-Regular' }}>
           ARTS
         </p>
       </div>

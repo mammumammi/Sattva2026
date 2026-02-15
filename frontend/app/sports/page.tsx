@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,7 +47,7 @@ export default function IndividualSportsPoints() {
       });
     }
   }, []);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -54,22 +55,48 @@ export default function IndividualSportsPoints() {
   useEffect(() => {
     if (!mounted) return;
 
+    const sportstl = gsap.timeline({ease:"none"});
+
+    gsap.set(['.sports-title','.sports-title1','.sports-img'],{
+        opacity:0,
+    });
+
+    sportstl.to('.sports-title',{
+        opacity:1,
+        duration:1.5
+    },0.8)
+
+    sportstl.fromTo(['.sports-title1'],{
+        x:'100%',
+        scale:0.9
+    },{
+        x:'0',
+        scale:0.92,
+        opacity:1,
+        duration:1,
+        ease:"power4",
+        stagger:0.5
+    },0)
+
+    sportstl.to(".sports",{
+        opacity:1,
+        duration:0.6,
+        y:10
+    },0)
     // Animate event cards
-    gsap.fromTo(
+    sportstl.to(
       '.event-card',
-      {
-        y: 20,
-        opacity: 0,
-      },
       {
         y: 0,
         opacity: 1,
         stagger: 0.05,
         duration: 0.5,
         ease: "power2.out",
-        delay: 0.2
+        
       }
     );
+
+    
 
   }, [mounted]);
 
@@ -86,8 +113,9 @@ export default function IndividualSportsPoints() {
   return (
     <div className="min-h-screen bg-[#0b090a] text-white">
       {/* Header */}
-      <div className="pt-20 pb-12 px-4 md:px-8">
-        <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#590d22] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
+      <div className="sports-title opacity-0 text-[80px]  md:text-[120px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[10vh] md:top-[18vh] absolute rotate-270 -left-[19%] md:-left-[8%]">SPORTS</p></div>
+      <div className=" pb-12 px-4 md:px-8 pt-[32vh] sports-title1 opacity-0">
+        <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown
         </p>
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-[#fef9ef]" style={{ fontFamily: 'Astila-Regular' }}>
@@ -99,8 +127,8 @@ export default function IndividualSportsPoints() {
       </div>
 
       {/* Events Grid */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-[#590d22] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20 sports opacity-0">
+        <h2 className="text-2xl md:text-3xl font-semibold text-[#ce6464dd] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
           {selectedCategory.cat}
         </h2>
 
@@ -108,7 +136,7 @@ export default function IndividualSportsPoints() {
           {selectedCategory.events.map(([code, name], i) => (
             <div
               key={i}
-              className="event-card bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 cursor-pointer hover:bg-white/10 hover:border-[#590d22]/50 transition-all duration-300 group relative overflow-hidden"
+              className="event-card bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 cursor-pointer hover:bg-white/10 hover:border-[#ce6464dd]/50 transition-all duration-300 group relative overflow-hidden"
               onClick={() => {
                 setSelectedEvent({ code, name });
                 fetchData(code);
@@ -127,7 +155,7 @@ export default function IndividualSportsPoints() {
               </div>
 
               <div className="relative z-10">
-                <span className="text-[#590d22] font-bold text-xs uppercase px-3 py-1 bg-[#590d22]/10 rounded-full inline-block mb-3" style={{ fontFamily: 'var(--font-text)' }}>
+                <span className="text-[#ce6464dd] font-bold text-xs uppercase px-3 py-1 bg-[#ce6464dd]/10 rounded-full inline-block mb-3" style={{ fontFamily: 'var(--font-text)' }}>
                   {code}
                 </span>
                 <h3 className="text-[#fef9ef] font-semibold group-hover:text-white transition-colors" style={{ fontFamily: 'var(--font-text)' }}>
@@ -146,7 +174,7 @@ export default function IndividualSportsPoints() {
             {/* Modal Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[#590d22] font-bold text-sm px-3 py-1 bg-[#590d22]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
+                <span className="text-[#ce6464dd] font-bold text-sm px-3 py-1 bg-[#ce6464dd]/10 rounded-full" style={{ fontFamily: 'var(--font-text)' }}>
                   {selectedEvent.code}
                 </span>
                 <button
@@ -189,7 +217,7 @@ export default function IndividualSportsPoints() {
                           {res.position}
                         </div>
                       </td>
-                      <td className="p-3 text-[#590d22] font-semibold uppercase" style={{ fontFamily: 'var(--font-text)' }}>
+                      <td className="p-3 text-[#ce6464dd] font-semibold uppercase" style={{ fontFamily: 'var(--font-text)' }}>
                         {res.dept}
                       </td>
                       <td className="p-3 text-[#fef9ef]" style={{ fontFamily: 'var(--font-text)' }}>
@@ -208,7 +236,7 @@ export default function IndividualSportsPoints() {
             <div className="mt-6 pt-4 border-t border-white/10">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="w-full bg-[#590d22] hover:bg-[#590d22]/80 text-white font-semibold py-3 rounded-xl transition-colors"
+                className="w-full bg-[#ce6464dd] hover:bg-[#ce6464dd]/80 text-white font-semibold py-3 rounded-xl transition-colors"
                 style={{ fontFamily: 'var(--font-text)' }}
               >
                 Close
@@ -219,11 +247,12 @@ export default function IndividualSportsPoints() {
       )}
 
       {/* Decorative Background Element */}
-      <div className="fixed top-1/2 right-0 -translate-y-1/2 opacity-5 pointer-events-none">
-        <p className="text-[20vw] font-bold rotate-90 origin-center text-[#590d22]" style={{ fontFamily: 'Astila-Regular' }}>
+      <div className="fixed top-1/2 -left-[10%] -translate-y-1/2 opacity-5 pointer-events-none">
+        <p className="text-[15vw] font-bold rotate-270 origin-center text-[#ce6464dd]" style={{ fontFamily: 'Astila-Regular' }}>
           SPORTS
         </p>
       </div>
+      <Navbar currentPage="sports"/>
     </div>
   );
 }

@@ -208,7 +208,7 @@ const Hero = () => {
 
       // Animate text color to white
       tl.to(
-        ".hero-text",
+        [".hero-text",".tradition"],
         {
           filter: "brightness(0) invert(1)",
           duration: 1,
@@ -223,6 +223,12 @@ const Hero = () => {
       tl.set('.hero-fore',{
         display:"fixed"
       },1.4)
+
+      tl.set('.hero-text',{
+        opacity:0,
+        duration:1,
+        ease:"circ.in"
+      })
 
 
       const atl = gsap.timeline({scrollTrigger:{
@@ -476,10 +482,14 @@ const Hero = () => {
 </div>          
           </div>
         </div>
-        
-        <div className='w-screen flex justify-end fixed top-[89vh] right-[4vw]  z-10'>
-          <h1 className='hero-text text-[70px] ' style={{fontFamily:'Astila-Regular'}}>2026</h1>
+        <div className='top-[93vh] tradition left-[6vw] fixed text-amber-950'>
+          <p className='text-[14px] md:text-[16px]'  style={{ fontFamily: 'textfont', letterSpacing: '0.25em' }}>TRADITION REIMAGINED</p>
         </div>
+        <div className='w-screen flex justify-end fixed top-[91vh] md:top-[89vh] right-[4vw]  z-10'>
+          <h1 className='hero-text text-[50px] md:text-[70px]  ' style={{fontFamily:'Astila-Regular'}}>2026</h1>
+        </div>
+
+        
 
         {/* Future content area - will be visible after pin ends */}
         
@@ -491,7 +501,7 @@ const Hero = () => {
     {/* Total Point Board */}
     <div className='bg-[#0b090a]   min-h-screen flex flex-col point-content md:text-[30px] text-[20px] text-[#d24b4b57]   w-screen relative p-[20px] md:p-[5vw]' style={{fontFamily:'Astila-Regular'}} >
 
-    <div className='text-[30px] md:text-[80px] opacity-0 md:mt-[0vh] point-title text-center md:space-y-[-50px] space-y-[-16px]' >
+    <div className='text-[30px] md:text-[80px] opacity-0 mt-[10vh] scale-120 md:scale-100 md:mt-[0vh] point-title text-center md:space-y-[-50px] space-y-[-16px]' >
 
     
     <p className=''>Department</p>
