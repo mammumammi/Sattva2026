@@ -1,5 +1,4 @@
 "use client";
-import { div } from 'framer-motion/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import React, { act, useEffect, useRef, useState } from 'react'
@@ -39,8 +38,8 @@ const departmentsData: DepartmentData[] = [
 const Hero = () => {  
   const [activeView, setActiveView] = useState<'total' | 'arts' | 'sports'>('total');
 
-  const pointRef = useRef(null);
-  const pointCardRef = useRef(null);
+  const pointRef = useRef<HTMLDivElement>(null);
+const pointCardRef = useRef<HTMLDivElement>(null);
 
   const [sortedDepts, setSortedDepts] = useState(departmentsData);
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -320,6 +319,8 @@ const Hero = () => {
       const ctx = gsap.context(() => {
     
         const container = pointRef.current;
+        if (!container) return; // Add this null check
+    
     
         const totalWidth = container.scrollWidth;
         const viewportWidth = window.innerWidth;
