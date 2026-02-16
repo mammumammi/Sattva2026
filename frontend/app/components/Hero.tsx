@@ -72,10 +72,21 @@ const pointCardRef = useRef<HTMLDivElement>(null);
     if (overlay && overlay.style.opacity !== '0') {
       gsap.to(overlay, {
         opacity: 0,
+        duration: 0.5,
         onComplete: () => {
-          overlay.style.zIndex = '-1'; // Send back behind
+          overlay.style.zIndex = '-1';
         }
       });
+      
+      // Don't proceed with GSAP setup until overlay is done
+      setTimeout(() => {
+        const isMobile = window.innerWidth <= 768;
+        gsap.set('.hero-fore', {
+          x: isMobile ? 32 : 0,
+          transformOrigin: "center center",
+          force3D: true // Force GPU acceleration
+        });
+      }, 600); // Wait for overlay animation to complete
     }
   }, []);
 
