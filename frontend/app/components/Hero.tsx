@@ -130,6 +130,8 @@ const pointCardRef = useRef<HTMLDivElement>(null);
 
       gsap.set('.hero-fore', {
         x: width > 768 ? 0 : 32,
+        display:'absolute',
+        left:"50%",
         transformOrigin: "center center"
       });
 
@@ -344,7 +346,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
 
     
         const horizontalTween = gsap.to(container, {
-          x: () => width > 768 ? -(totalWidth - viewportWidth) - 600 :  -(totalWidth - viewportWidth),
+          x: () => width > 768 ? -(totalWidth - viewportWidth) - 600 :  -(totalWidth - viewportWidth) - 200,
           opacity:1,
           ease: "none",
           scrollTrigger: {
