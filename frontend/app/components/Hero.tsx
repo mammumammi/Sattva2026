@@ -138,14 +138,11 @@ const pointCardRef = useRef<HTMLDivElement>(null);
         position: "absolute",
         top: "60%",
         left: "50%",
-        x: "0",
         y: "-50%",
         opacity: 0
       });
 
-      gsap.set('.about-text',{
-        x:'-50%'
-      })
+      
 
       const tl = gsap.timeline({
         scrollTrigger: {
