@@ -145,7 +145,7 @@ export default function IndividualArtsPoints() {
             start:'center 70%',
             end:'100%',
             scrub:3.9,
-            markers:true,
+            
         },
         duration:2,
     })

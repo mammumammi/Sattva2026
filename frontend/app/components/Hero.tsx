@@ -457,7 +457,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
         <img src={cusat.src} className='hero-text w-[50px] ml-[5vw] z-10 fixed top-[1vh] left-0' style={{fontFamily:'hisyam'}}></img>
         
         <div className="inner-hero-wrapper  relative h-screen"> {/* Changed to h-screen */}
-          <div className="inner-hero rounded-[20px] h-[80vh] w-[90vw] overflow-hidden relative">
+          <div className="inner-hero rounded-[20px] h-[60vh] md:h-[80vh] w-[90vw] overflow-hidden relative">
             {/* <div className="hero-img relative h-full w-full overflow-hidden rounded-[20px]">
               <img 
                 src="/sattva2.jpg" 
@@ -469,11 +469,11 @@ const pointCardRef = useRef<HTMLDivElement>(null);
                 alt="" 
               />
             </div> */}
-              <div className='h-[80vh] hero-bg  overflow-hidden rounded-[20px] bg-[#0b090a]'>
+              <div className='h-[30vh] md:h-[80vh] hero-bg  overflow-hidden rounded-[20px] bg-[#0b090a]'>
                 
               </div>
 
-              <div className="absolute  top-[37.5%]   md:top-[50.5%] md:left-[10%]  h-[50vh] z-50 ">
+              <div className="absolute  top-[37.5%]   md:top-[50.5%] md:left-[10%] h-[30vh] md:h-[50vh] z-50 ">
                 <img src="/nbg2.png" className='hero-fore brightness-110 scale-190 translate-y-[6vh] translate-x-8 md:translate-x-0  md:scale-150' alt="" />
               </div>
 
@@ -484,7 +484,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
           </div>
         </div>
         <div className='top-[93vh] tradition left-[6vw] fixed text-amber-950'>
-          <p className='text-[14px] md:text-[16px]'  style={{ fontFamily: 'textfont', letterSpacing: '0.25em' }}>TRADITION REIMAGINED</p>
+          <p className='text-[10px] md:text-[16px]'  style={{ fontFamily: 'textfont', letterSpacing: '0.25em' }}>TRADITION REIMAGINED</p>
         </div>
         <div className='w-screen flex justify-end fixed top-[91vh] md:top-[89vh] right-[4vw]  z-10'>
           <h1 className='hero-text text-[50px] md:text-[70px]  ' style={{fontFamily:'Astila-Regular'}}>2026</h1>
