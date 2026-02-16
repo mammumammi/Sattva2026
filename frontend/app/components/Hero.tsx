@@ -175,6 +175,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
       tl.to('.hero-fore',{
         scale: width > 768 ? 0.95 : 1.5,
         y:width >768 ? "-30%" : '-10%',
+        x:0,
         ease:"sine.in"
       },0)
 
@@ -220,7 +221,9 @@ const pointCardRef = useRef<HTMLDivElement>(null);
     
       
       tl.set('.hero-fore',{
-        display:"fixed"
+        display:"fixed",
+        x: width > 768 ? 0 : 32, // 32px = translate-x-8
+  transformOrigin: "center center"
       },1.4)
 
       tl.set('.hero-text',{
