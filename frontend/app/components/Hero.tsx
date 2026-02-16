@@ -130,8 +130,6 @@ const pointCardRef = useRef<HTMLDivElement>(null);
 
       gsap.set('.hero-fore', {
         x: width > 768 ? 0 : 32,
-        display:'absolute',
-        left:"50%",
         transformOrigin: "center center"
       });
 
@@ -140,7 +138,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
         position: "absolute",
         top: "60%",
         left: "50%",
-        x: "-50%",
+        x: "0",
         y: "-50%",
         opacity: 0
       });
