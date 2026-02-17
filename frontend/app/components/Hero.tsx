@@ -486,7 +486,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
               </div>
 
               <div className="absolute  top-[37.5%]   md:top-[50.5%] md:left-[10%] h-[30vh] md:h-[50vh] z-50 ">
-                <img src="/nbg2.png" className='hero-fore brightness-110 scale-190 translate-y-[6vh] md:translate-x-0  md:scale-150' alt="" />
+                <img src="/nbg2.png" className='hero-fore brightness-110 scale-190 translate-y-[6vh] translate-x-8 md:translate-x-0  md:scale-150' alt="" />
               </div>
 
 
