@@ -82,7 +82,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
       setTimeout(() => {
         const isMobile = window.innerWidth <= 768;
         gsap.set('.hero-fore', {
-          x: isMobile ? 32 : 0,
+          x: 0,
           transformOrigin: "center center",
           force3D: true // Force GPU acceleration
         });
@@ -129,7 +129,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
       if (!mounted) return;
 
       gsap.set('.hero-fore', {
-        x: width > 768 ? 0 : 32,
+        x:  0,
         transformOrigin: "center center"
       });
 
