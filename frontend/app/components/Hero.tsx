@@ -188,7 +188,6 @@ const pointCardRef = useRef<HTMLDivElement>(null);
       tl.to('.hero-fore',{
         scale: width > 768 ? 0.95 : 1.5,
         y:width >768 ? "-30%" : '-10%',
-        x:0,
         ease:"sine.in"
       },0)
 
