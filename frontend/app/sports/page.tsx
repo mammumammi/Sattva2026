@@ -125,8 +125,10 @@ export default function IndividualSportsPoints() {
   }
 
   return (
-    <div className="min-h-screen md:h-[160vh] bg-[#0b090a] text-white">
-      <div className="sports-title opacity-0 text-[80px]  md:text-[120px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[10vh] md:top-[18vh] absolute rotate-270 -left-[19%] md:-left-[8%]">SPORTS</p></div>
+    <div className="min-h-screen  bg-[#0b090a] text-white">
+      <div className="sports-title opacity-0 text-[80px]  md:text-[120px] text-center relative " style={{fontFamily:'Astila-Regular'}}>
+        {/* <p className="top-[10vh] md:top-[18vh] absolute rotate-270 -left-[19%] md:-left-[8%]">SPORTS</p> */}
+        </div>
       <div className=" pb-12 px-4 md:px-8 pt-[32vh] sports-title1 opacity-0">
         <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown

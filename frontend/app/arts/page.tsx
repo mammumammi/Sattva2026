@@ -164,7 +164,8 @@ export default function IndividualArtsPoints() {
 
   return (
     <div className="min-h-screen md:h-[160vh]  arts overflow-hidden bg-[#0b090a] text-white" id="individual-points">
-        <div className="arts-title text-[80px]  md:text-[150px] text-center relative " style={{fontFamily:'Astila-Regular'}}><p className="top-[8vh] md:top-[12vh] absolute rotate-270 -left-[8%] md:-left-[5%]">ARTS</p>
+        <div className="arts-title text-[80px]  md:text-[150px] text-center relative " style={{fontFamily:'Astila-Regular'}}>
+          {/* <p className="top-[8vh] md:top-[12vh] absolute rotate-270 -left-[8%] md:-left-[5%]">ARTS</p> */}
             <img src={artsmain.src} alt=""  className="absolute top-[35vh] scale-200 md:top-0 md:-mt-[35vh] md:scale-90 brightness-50 md:brightness-70 arts-img"/>
         </div>
       <div className="pt-[28vh] md:pt-[20vh] pb-12 px-4 md:px-8 arts-title1">
@@ -179,8 +180,8 @@ export default function IndividualArtsPoints() {
         </h1>
       </div>
 
-      <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8">
-        <div className="relative inline-block w-full md:w-auto">
+      <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8 relative">
+        <div className="relative inline-block w-full md:w-auto  z-50">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="w-full md:w-80 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 text-left flex items-center justify-between hover:bg-white/10 transition-all duration-300"
@@ -199,7 +200,7 @@ export default function IndividualArtsPoints() {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute z-50 mt-2 w-full md:w-80 bg-[#1a1a1a] backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="absolute z-[100] mt-2 w-full md:w-80 bg-[#1a1a1a] backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
               {events.map((category, index) => (
                 <button
                   key={index}
@@ -218,7 +219,7 @@ export default function IndividualArtsPoints() {
         </div>
       </div>
 
-      <div className="max-w-7xl events opacity-0 mx-auto px-4 md:px-8 pb-20">
+      <div className="max-w-7xl events opacity-0 mx-auto px-4 md:px-8 pb-20 relative z-10">
         <h2 className="text-2xl md:text-3xl font-semibold text-[#ce6464dd] mb-6" style={{ fontFamily: 'Astila-Regular' }}>
           {selectedCategory.cat}
         </h2>
