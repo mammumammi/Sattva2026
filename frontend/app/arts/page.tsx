@@ -82,6 +82,10 @@ export default function IndividualArtsPoints() {
         opacity:0,
     });
 
+    gsap.set('.drop',{
+      z:100
+    })
+
     artstl.to('.arts-title',{
         opacity:1,
         duration:1.5
@@ -200,7 +204,7 @@ export default function IndividualArtsPoints() {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute z-[100] mt-2 w-full md:w-80 bg-[#1a1a1a] backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="absolute drop mt-2 w-full md:w-80 bg-[#1a1a1a] backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
               {events.map((category, index) => (
                 <button
                   key={index}
