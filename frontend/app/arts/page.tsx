@@ -180,8 +180,8 @@ export default function IndividualArtsPoints() {
         </h1>
       </div>
 
-      <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8 relative">
-        <div className="relative inline-block w-full md:w-auto  z-50">
+      <div className="max-w-7xl cat mt-8 opacity-0 mx-auto px-4 md:px-8 mb-8 relative z-[70]">
+        <div className="relative inline-block w-full md:w-auto  z-[80]">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="w-full md:w-80 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 text-left flex items-center justify-between hover:bg-white/10 transition-all duration-300"
