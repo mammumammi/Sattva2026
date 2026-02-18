@@ -198,7 +198,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
         opacity: 1,
         scale: width > 768 ? 1.2 : 1.3,
         duration:1,
-        yPercent: width > 768 ? -40 : -10, 
+        yPercent: width > 768 ? -40 : -60, 
         
         // y:'-10vh',
         scrollTrigger:{
