@@ -196,7 +196,7 @@ const pointCardRef = useRef<HTMLDivElement>(null);
 
       tl.to('.about-text',{
         opacity: 1,
-        scale: width > 768 ? 1.2 : 1.3,
+        scale: width > 768 ? 1.2 : 1.5,
         duration:1,
         yPercent: width > 768 ? -40 : -60, 
         
