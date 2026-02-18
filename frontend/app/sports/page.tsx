@@ -129,7 +129,7 @@ export default function IndividualSportsPoints() {
       <div className="sports-title opacity-0 text-[80px]  md:text-[120px] text-center relative " style={{fontFamily:'Astila-Regular'}}>
         {/* <p className="top-[10vh] md:top-[18vh] absolute rotate-270 -left-[19%] md:-left-[8%]">SPORTS</p> */}
         </div>
-      <div className=" pb-12 px-4 md:px-8 pt-[32vh] sports-title1 opacity-0">
+      <div className=" pb-12 px-4 md:px-8 pt-[5vh] md:pt-[20vh] sports-title1 opacity-0">
         <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown
         </p>

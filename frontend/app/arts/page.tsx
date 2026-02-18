@@ -172,7 +172,7 @@ export default function IndividualArtsPoints() {
           {/* <p className="top-[8vh] md:top-[12vh] absolute rotate-270 -left-[8%] md:-left-[5%]">ARTS</p> */}
             <img src={artsmain.src} alt=""  className="absolute top-[35vh] scale-200 md:top-0 md:-mt-[35vh] md:scale-90 brightness-50 md:brightness-70 arts-img"/>
         </div>
-      <div className="pt-[28vh] md:pt-[20vh] pb-12 px-4 md:px-8 arts-title1">
+      <div className="pt-[5vh] md:pt-[20vh] pb-12 px-4 md:px-8 arts-title1">
         <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#ce6464dd] text-center mb-4" style={{ fontFamily: 'var(--font-text)' }}>
           Performance Breakdown
         </p>
